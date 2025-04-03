@@ -1,0 +1,434 @@
+import React, { useState, useEffect, useRef, forwardRef } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+} from "@mui/material";
+import {
+  CommanTableContain,
+  ContainerCustom,
+  PaginationContain,
+  SmartSearchContain,
+} from "../style/Table";
+import SearchIcon from "@mui/icons-material/Search";
+import { color } from "@mui/system";
+
+const staticHeaders = [
+  { id: "id", label: "ID", sticky: true },
+  { id: "name", label: "Name" },
+  { id: "email", label: "Email" },
+  { id: "status", label: "Status" },
+];
+
+const staticData = [
+  { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" },
+  { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" }, { id: 1, name: "John Doe", email: "john.doe@example.com", status: "Active" },
+  { id: 2, name: "Jane Smith", email: "jane.smith@example.com", status: "Inactive" },
+  { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", status: "Active" },
+  { id: 4, name: "Bob Brown", email: "bob.brown@example.com", status: "Inactive" },
+];
+
+const MuiTable = forwardRef(
+  ({ headers = staticHeaders, data = staticData, defaultRowsPerPage = 10 }, ref) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
+    const [search, setSearch] = useState("");
+    const [columnWidths, setColumnWidths] = useState([]);
+    const headerRefs = useRef([]);
+
+    // Handle Pagination
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+
+    // Filter data for search
+    const filteredData = data.filter((row) =>
+      headers.some((header) =>
+        row[header.id]?.toString().toLowerCase().includes(search.toLowerCase())
+      )
+    );
+
+    // Paginate the filtered data
+    const paginatedData = filteredData.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    );
+
+    // Measure column widths after rendering
+    useEffect(() => {
+      const calculateWidths = () => {
+        if (headerRefs.current.length) {
+          const widths = headerRefs.current.map((ref) => {
+            const rect = ref?.getBoundingClientRect();
+            return rect ? rect.width : 0;
+          });
+          setColumnWidths(widths);
+        }
+      };
+
+      calculateWidths();
+    }, [headers, filteredData]);
+
+    return (
+      <>
+        {/* Search Field */}
+         
+
+        {/* Table */}
+        <CommanTableContain ref={ref}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+
+              
+                {headers.map((header, index) => {
+                  const leftPosition = columnWidths
+                    .slice(0, index)
+                    .reduce((acc, width) => acc + width, 0);
+
+                  return (
+                    <TableCell
+                      key={header.id}
+                      ref={(el) => (headerRefs.current[index] = el)}
+ 
+                    >
+                      {header.label}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {paginatedData.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {headers.map((header, index) => {
+                    const leftPosition = columnWidths
+                      .slice(0, index)
+                      .reduce((acc, width) => acc + width, 0);
+
+                    return (
+                      <TableCell
+                        key={header.id}
+                        sx={{
+
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {row[header.id] || "-"}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CommanTableContain>
+
+        {/* Pagination */}
+        <PaginationContain>
+          <TablePagination
+            component="div"
+            count={filteredData.length} // Total number of filtered rows
+            page={page} // Current page
+            onPageChange={handleChangePage} // Function to handle page change
+            rowsPerPage={rowsPerPage} // Number of rows per page
+            onRowsPerPageChange={handleChangeRowsPerPage} // Function to handle rows per page change
+            rowsPerPageOptions={[5, 10, 15]} // Options for rows per page
+          />
+        </PaginationContain>
+      </>
+    );
+  }
+);
+
+export default MuiTable;import { Box, Button, TableContainer } from "@mui/material";
+import { borderBottom, styled } from "@mui/system";
+import { Colors } from "../style/theme/index";
+
+export const CommanTableContain = styled(TableContainer)(() => ({
+  maxHeight: "400px", // Set a maximum height for the table
+  border: "1px solid rgba(224, 224, 224, 1)", // Add a border around the entire table
+  borderRadius: "5px", // Optional: Add rounded corners
+  overflowY: "auto", // Enable vertical scrolling
+  overflowX: "auto", // Enable horizontal scrolling
+  "& table": {
+    width: "100%", // Ensure the table takes up the full width
+    borderCollapse: "collapse", // Ensure borders collapse for a cleaner look
+  },
+  "& table tr th,& table tr td": {
+    borderRight: "1px solid rgba(224, 224, 224, 1)",
+    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+    borderLeft: "none",
+    borderTop: "none", // Remove the top border
+    textAlign: "center",
+    textTransform: "capitalize",
+  },
+  "& table thead tr:first-of-type th": {
+    borderTop: "none", // Remove the top border for the header row
+    // backgroundColor: "blue", // Ensure the header has a solid background color
+    color: Colors.black,
+    borderBottom: "1px solid rgba(224, 224, 224, 1)",
+    backgroundColor:"#bec4cb",
+    whiteSpace: "nowrap",
+    position: "sticky", // Make the header sticky
+    top: 0, // Stick to the top
+    zIndex: 3, // Ensure it stays above other elements
+    "& span": {
+      fontSize: "12px",
+      display: "block",
+    },
+  },
+  "& table tr td:first-of-type, & table tr th:first-of-type": {
+    position: "sticky", // Make the first column sticky
+    left: 0, // Stick to the left
+    zIndex: 4, // Ensure it stays above other elements
+    // backgroundColor: "red", // Match the background color
+    backgroundColor: "white",
+    borderBottom: "none", 
+    borderRight: "none",
+    borderTop: "none", // Remove the top border for the first column
+    // Remove the bottom border for the first column
+    
+    outline:" 0.1px solid rgba(224, 224, 224, 1)",
+    // Add a left border for the first column
+  },
+  "& table thead tr:first-of-type th:first-of-type": {
+    position: "sticky", // Make the top-left cell sticky
+    left: 0, // Stick to the left
+    top: 0, // Stick to the top
+    zIndex: 5, // Ensure it stays above all other cells
+    // backgroundColor: "yellow", // Set the background color to yellow
+    backgroundColor: "#bec4cb",
+    borderLeft: "1px solid rgba(224, 224, 224, 1)", // Add a left border
+    borderTop: "1px solid rgba(224, 224, 224, 1)", // Add a top border
+  },
+  "& table tr td": {
+    backgroundColor: "#fff",
+    padding: "7px",
+    "& button.action": {
+      color: "#000",
+      border: "none",
+      outline: "none",
+      padding: "7px 15px",
+      borderRadius: "5px",
+      fontSize: "12px",
+      height: "30px",
+      "&.save": {
+        color: "#fff",
+        backgroundColor: "#009000",
+      },
+    },
+    "& a": {
+      fontSize: "12px",
+      color: "#007FFF",
+    },
+    "& input,& textarea, & select": {
+      fontSize: "12px",
+      width: "100%",
+      padding: "5px",
+      borderRadius: "5px",
+    },
+    "& .MuiStack-root": {
+      padding: "0",
+      "& .MuiFormControl-root": {
+        minWidth: "150px",
+        maxWidth: "150px",
+        margin: "auto",
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+        borderRadius: "5px",
+        "& label": {
+          fontSize: "11px",
+          top: "-5px",
+        },
+        "& .MuiInputBase-input": {
+          padding: "9px 14px",
+          height: "auto",
+        },
+        "& .MuiOutlinedInput-notchedOutline": {
+          display: "none",
+        },
+      },
+    },
+  },
+  "& table tr:last-of-type td": {
+    borderBottom: "none", // Remove the bottom border for the last row
+  },
+  "& table tr": {
+    "&:hover": {
+      "& td.Form_accepted,& td.Form_submitted": {
+        backgroundColor: Colors.formAcceptedBg,
+      },
+      "& td.Form_in-process,& td.Form_reconsideration": {
+        backgroundColor: Colors.formInprocessBg,
+      },
+      "& td.Form_pending": {
+        backgroundColor: Colors.formInprocessBg,
+      },
+    },
+    "& td": {
+      "&.Form_accepted,&.Form_submitted": {
+        color: Colors.formAccepted,
+      },
+      "&.Form_in-process,&.Form_reconsideration": {
+        color: Colors.formInprcess,
+      },
+      "&.Form_pending": {
+        color: Colors.formPending,
+      },
+    },
+  },
+}));
+
+export const SmartSearchContain = styled(Box)(() => ({
+  width: "200px",
+  position: "relative",
+  "& .MuiFormControl-root": {
+    margin: "0 2px",
+  },
+  "& label": {
+    fontSize: "12px",
+  },
+  paddingRight: "25px",
+  "& input": {
+    fontSize: "12px",
+    paddingRight: "25px",
+    backgroundColor: "#fff",
+    "&::placeholder": {
+      fontSize: "12px",
+    },
+  },
+  "& svg": {
+    position: "absolute",
+    right: "3px",
+    top: "7px",
+    color: Colors.light_gray,
+  },
+}));
+
+export const PaginationContain = styled(Box)(() => ({
+  border: "1px solid rgba(224, 224, 224, 1)", // Add a border around the entire pagination
+  borderRadius: "5px", // Optional: Add rounded corners
+  padding: "5px 0", // Decrease the height by reducing the padding
+  "& .MuiTablePagination-select": {
+    zIndex: 11,
+  },
+}));
+
+export const PdfButton = styled(Button)(() => ({
+  backgroundColor: "transparent",
+  minWidth: "30px",
+  borderRadius: "5px",
+  color: Colors.pending,
+}));
+
+export const ContainerCustom = styled(Box)(() => ({
+  display: "flex",
+  justifyContent: "end",
+  alignItems: "center",
+  backgroundColor: "#f5f5f5",
+  marginBottom: "10px",
+  padding: "0",
+  borderRadius: "5px",
+}));
+
+export const TableModal = styled(Box)(() => ({
+  maxWidth: "550px",
+  width: "100%",
+  maxHeight: "500px",
+  backgroundColor: Colors.white,
+  display: "flex",
+  flexDirection: "column",
+  "& .ModalHeader": {
+    backgroundColor: Colors.primary,
+    color: Colors.white,
+    fontSize: "14px",
+    position: "relative",
+    padding: "15px",
+    "& .Title": {
+      paddingRight: "30px",
+    },
+    "& .CloseButton": {
+      position: "absolute",
+      right: "5px",
+      top: "8px",
+      width: "30px",
+      height: "30px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "transparent",
+      color: Colors.white,
+      "& svg": {
+        color: "inherit",
+      },
+    },
+  },
+  "& .ModalBody": {
+    padding: "10px",
+    overflow: "hidden",
+    flex: "1 1 auto",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "420px",
+    "& img": {
+      maxWidth: "530px",
+      width: "100%",
+      maxHeight: "400px",
+      objectFit: "contain",
+    },
+  },
+}));
+
