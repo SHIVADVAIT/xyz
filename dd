@@ -1,0 +1,522 @@
+import { Box, Button, TableContainer } from "@mui/material";
+import { minWidth, styled, width } from "@mui/system";
+import { Colors } from "../theme";
+import { padding } from "polished";
+
+
+
+export const CommanTableContain = styled(TableContainer)(()=>({
+    maxHeight: '400px',
+    borderBottom:'1px solid rgba(224, 224, 224, 1)',
+    '& table tr th,& table tr td':{
+        borderRight:'1px solid rgba(224, 224, 224, 1)',
+        borderBottom:'1px solid rgba(224, 224, 224, 1)',
+        borderLeft:'none',
+        borderTop:'none',
+        textAlign:'center',
+        textTransform:'capitalize',
+    },
+    '& table thead tr:first-of-type th':{
+        borderTop:'1px solid rgba(224, 224, 224, 1)',
+        // backgroundColor:Colors.headColor,
+        backgroundColor:'#bec4cb',
+        color:Colors.black, 
+        whiteSpace: 'nowrap',
+        '& span':{
+            fontSize:'12px',
+            display:'block',
+        },
+    },
+    '& table tr td':{
+        backgroundColor:'#fff',
+        padding:'7px',
+        '& button.action':{
+            color: '#000',
+            border: 'none',
+            outline: 'none',
+            padding: '7px 15px',
+            borderRadius: '5px',
+            fontSize: '12px',
+            height: '30px',
+            '&.save':{
+                color:'#fff',
+                backgroundColor: '#009000',
+            },
+        },
+        '& a':{
+        fontSize:'12px',
+        color:'#007FFF',
+        },
+        '& input,& textarea, & select':{
+            fontSize:'12px',
+            width:'100%',
+            padding:'5px',
+            borderRadius:'5px',
+        },
+        '& .MuiStack-root':{
+            padding:'0',
+            '& .MuiFormControl-root':{
+                minWidth:'150px',
+                maxWidth:'150px',
+                margin:"auto",
+                border:'1px solid rgba(0, 0, 0, 0.23)',
+                borderRadius:'5px',
+                '& label':{
+                    fontSize:'11px',
+                    top:'-5px'
+                },
+                '& .MuiInputBase-input':{
+                    padding:'9px 14px',
+                    height:'auto',
+                },
+                '& .MuiOutlinedInput-notchedOutline':{
+                    display:'none', 
+                }
+            }
+        }
+    },
+    '& table tr:last-of-type td':{
+        borderBottom:'none',
+    },
+    '& table tr td:first-of-type,& table tr th:first-of-type':{
+        borderLeft:'1px solid rgba(224, 224, 224, 1)',
+    },
+    '& table tr':{
+        '&:hover':{
+            '& td.Form_accepted,& td.Form_submitted':{
+                backgroundColor:Colors.formAcceptedBg,
+            },
+            '& td.Form_in-process,& td.Form_reconsideration':{
+                backgroundColor:Colors.formInprocessBg,
+            },
+            '& td.Form_pending':{
+                backgroundColor:Colors.formInprocessBg,
+            },
+        },
+        '& td':{
+            '&.Form_accepted,&.Form_submitted':{
+                color:Colors.formAccepted,},
+                '&.Form_in-process,&.Form_reconsideration':{
+                    color:Colors.formInprcess,},
+                    '&.Form_pending':{
+                        color:Colors.formPending,}
+        },
+    },
+
+}))
+
+export const SmartSearchContain = styled(Box)(()=>({
+    width:'200px',
+    position:'relative',
+    // marginLeft:'auto',
+    '& .MuiFormControl-root':{
+        margin:'0'
+    },
+    '& label':{
+        fontSize:'12px',
+    },
+    '& input':{
+        fontSize:'12px',
+        paddingRight:'25px',
+        backgroundColor:'#fff',
+        '&::placeholder':{
+            fontSize:'12px',
+        },
+    },
+    '& svg':{
+        position:'absolute',
+        right:'3px',
+        top:'7px',
+        color:Colors.light_gray,
+    },
+}))
+
+export const PaginationContain = styled(Box)(()=>({
+    '& .MuiTablePagination-select':{
+        zIndex:11,
+    },
+
+}))
+
+export const PdfButton = styled(Button)(()=>({
+    backgroundColor:'transparent',
+    minWidth:'30px',
+    borderRadius:'5px',
+    color:Colors.pending,
+}))
+
+export const ContainerCustom = styled(Box)(()=>({
+    display:'flex',
+    justifyContent:'end',
+    alignItems:'center',
+    backgroundColor:'#f5f5f5',
+    marginBottom:'10px',
+    padding:' 0',
+    borderRadius:'5px',
+}))
+
+export const TableModal = styled(Box)(() => ({
+    maxWidth: '550px',
+    width: '100%',
+    maxHeight: '500px',
+    backgroundColor: Colors.white,
+    display: 'flex',
+    flexDirection: 'column',
+    '& .ModalHeader': {
+      backgroundColor: Colors.primary,
+      color: Colors.white,
+      fontSize: '14px',
+      position: 'relative',
+      padding: '15px',
+      '& .Title': {
+        paddingRight: '30px',
+      },
+      '& .CloseButton': {
+        position: 'absolute',
+        right: '5px',
+        top: '8px',
+        width:'30px',
+        height:'30px',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'transparent',
+        color:Colors.white,
+        '& svg': {
+          color: 'inherit',
+        },
+      },
+    },
+    '& .ModalBody': {
+      padding: '10px',
+      overflow: 'hidden', // Correct spelling
+      flex: '1 1 auto', // Ensures modal body stretches to fill available space
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height:'420px',
+      '& img': {
+        maxWidth: '530px', // Constrain the image width
+        width:'100%',
+        maxHeight: '400px', // Constrain the image height to the modal body
+        objectFit: 'contain', // Ensures the image fits inside the container
+      },
+    },
+  }));
+  
+import React, { useState, useEffect, useRef, forwardRef } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  TextField,
+  Modal,
+  Box,
+} from "@mui/material";
+import {
+  CommanTableContain,
+  ContainerCustom,
+  PaginationContain,
+  SmartSearchContain,
+  TableModal,
+  modalButton,
+} from "../../style/table";
+import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
+import { ModalContain } from "../../style/HO/MVRManualCreation";
+import CloseIcon from "@mui/icons-material/Close";
+
+const MuiTable = forwardRef(
+  ({ headers, data, defaultRowsPerPage = 10, total, colSpan }, ref) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
+    const [search, setSearch] = useState("");
+    const [columnWidths, setColumnWidths] = useState([]);
+    const headerRefs = useRef([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    // modal start
+    const handleModalOpen = (image) => {
+      setSelectedImage(image);
+      setModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+      setModalOpen(false);
+      setSelectedImage(null);
+    };
+    // mdoal end
+
+    // Handle Pagination
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
+
+    // Filter data for search
+    const filteredData = data.filter((row) =>
+      headers.some((header) =>
+        row[header.id]?.toString().toLowerCase().includes(search.toLowerCase())
+      )
+    );
+
+    // Paginate the filtered data
+    const paginatedData = filteredData.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    );
+
+    // Measure column widths after rendering
+    useEffect(() => {
+      const calculateWidths = () => {
+        if (headerRefs.current.length) {
+          const widths = headerRefs.current.map((ref) => {
+            const rect = ref?.getBoundingClientRect();
+            return rect ? rect.width : 0; // Include borders in the width calculation
+          });
+          setColumnWidths(widths);
+        }
+      };
+
+      calculateWidths();
+    }, [headers, filteredData]);
+
+    // Calculate the grand totals for numeric fields
+    const calculateGrandTotal = (field) => {
+      return data.reduce((total, row) => {
+        const value = parseFloat(row[field]) || 0; // Ensure it is a number
+        return total + value;
+      }, 0);
+    };
+
+    // Calculate totals for specific fields in paginated data (e.g., total_mom_points)
+    const calculateColumnTotal = (field) => {
+      return paginatedData.reduce((total, row) => {
+        const value = parseFloat(row[field]) || 0;
+        return total + value;
+      }, 0);
+    };
+
+    return (
+      <>
+        {/* Search Field */}
+        <ContainerCustom>
+          <SmartSearchContain>
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              marginleft="auto"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <SearchIcon />
+          </SmartSearchContain>
+        </ContainerCustom>
+
+        {/* Table */}
+        <CommanTableContain ref={ref}>
+          <Table stickyHeader>
+            <TableHead>
+              {/* Group Row */}
+              {headers.some((header) => header.group) && ( // Check if any header has a group
+                <TableRow>
+                  {headers.reduce((acc, header, index) => {
+                    if (
+                      index === 0 ||
+                      header.group !== headers[index - 1].group
+                    ) {
+                      const groupHeaders = headers.filter(
+                        (h) => h.group === header.group
+                      );
+                      acc.push(
+                        <TableCell
+                          key={header.group}
+                          colSpan={groupHeaders.length}
+                          align="center"
+                          sx={{
+                            backgroundColor: "#f5f5f5",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            position: "sticky",
+                            top: 0,
+                            zIndex: 5,
+                          }}
+                        >
+                          {header.group}
+                        </TableCell>
+                      );
+                    }
+                    return acc;
+                  }, [])}
+                </TableRow>
+              )}
+
+              {/* Column Header Row */}
+              <TableRow>
+                {headers.map((header, index) => {
+                  // Calculate left position for sticky columns
+                  const leftPosition = columnWidths
+                    .slice(0, index)
+                    .reduce((acc, width) => acc + width, 0);
+
+                  return (
+                    <TableCell
+                      key={header.id}
+                      ref={(el) => (headerRefs.current[index] = el)} // Store refs for measuring width
+                      sx={{
+                        position: "sticky",
+                        left: header.sticky ? `${leftPosition}px` : "auto",
+                        top: headers.some((header) => header.group)
+                          ? "40px"
+                          : "0px", // Adjust if group headers exist
+                        zIndex: header.sticky ? 4 : 3,
+                        backgroundColor: "white", // Ensure contrast
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {header.label}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {paginatedData.map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {headers.map((header, index) => {
+                    // Check if the column is the dealer code column
+                    const isLink = header.link; // Replace 'dealerCode' with the actual field name
+
+                    const isStatus = header.id === "evaluation_status";
+                    const status = row.evaluation_status;
+
+                    // Calculate left position for sticky cells
+                    const leftPosition = columnWidths
+                      .slice(0, index)
+                      .reduce((acc, width) => acc + width, 0);
+
+                    return (
+                      <TableCell
+                        key={header.id}
+                        className={`Form_${status}  ${
+                          isStatus ? "Status" : ""
+                        }`}
+                        sx={{
+                          position: header.sticky ? "sticky" : "static",
+                          left: header.sticky ? `${leftPosition}px` : "auto",
+                          zIndex: 2,
+                          backgroundColor: "white",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {isLink ? (
+                          // If it's the dealerCode column, wrap in a Link
+                          // <Link to={`/mvrformfill/${row[header.id]}`}>{row[header.id] || "-"}</Link>
+                          <Link to={header.link}>{row[header.id] || "-"}</Link>
+                        ) : header.mediaModal ? (
+                          // If mediaModal is true, show the button with an image
+                          <div
+                            onClick={() => handleModalOpen(row[header.id])}
+                            className="ModalImag"
+                            style={{
+                              width: "35px",
+                              overflow: "hidden",
+                              margin: "auto",
+                            }}
+                          >
+                            <img
+                              src={row[header.id]}
+                              alt="img"
+                              style={{ width: "100%" }}
+                            />
+                          </div>
+                        ) : (
+                          // Otherwise, just display the value
+                          row[header.id] || "-"
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              ))}
+              {/* Grand Total Row */}
+              {total && (
+                <TableRow>
+                  <TableCell
+                    colSpan={colSpan}
+                    sx={{ position: "sticky", left: "0px", zIndex: 2 }}
+                  >
+                    Grand Total
+                  </TableCell>
+                  {headers.slice(colSpan).map((header) => {
+                    if (header.total) {
+                      return (
+                        <TableCell key={header.id}>
+                          {calculateColumnTotal(header.id)}
+                        </TableCell>
+                      );
+                    }
+                    return <TableCell key={header.id} />;
+                  })}
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </CommanTableContain>
+
+        {/* Pagination */}
+        <PaginationContain>
+          <TablePagination
+            component="div"
+            count={filteredData.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </PaginationContain>
+
+        {/* image modal start */}
+        {modalOpen && (
+          <ModalContain>
+            <TableModal>
+              <div className="ModalHeader">
+                <h4 className="Title">Image Preview</h4>
+                <button
+                  className="CloseButton"
+                  onClick={() => handleModalClose()}
+                >
+                  <CloseIcon />
+                </button>
+              </div>
+              <div className="ModalBody">
+                {/* Image Preview */}
+                {selectedImage && <img src={selectedImage} alt="Preview" />}
+              </div>
+            </TableModal>
+          </ModalContain>
+        )}
+
+        {/* image modal end */}
+      </>
+    );
+  }
+);
+
+export default MuiTable;
