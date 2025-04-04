@@ -1,0 +1,423 @@
+ import { Box, Button, TableContainer } from "@mui/material";
+import {   borderBottom, styled } from "@mui/system";
+import { Colors } from "../../style/theme/index";
+import { padding } from "polished";
+
+
+
+export const CommanTableContain = styled(TableContainer)(()=>({
+    marginTop: '70px',
+     
+    borderBottom:'1px solid rgba(224, 224, 224, 1)',
+    '& table tr th,& table tr td':{
+        borderRight:'1px solid rgba(224, 224, 224, 1)',
+        
+        borderLeft:'none',
+        borderTop:'none',
+        textAlign:'center',
+    },
+    '& table thead tr:first-of-type th':{
+        borderTop:'1px solid rgba(224, 224, 224, 1)',
+        // backgroundColor:Colors.headColor,
+        backgroundColor:'#bec4cb',
+        color:Colors.black,
+        whiteSpace: 'nowrap',
+        '& span':{
+            fontSize:'12px',
+            display:'block',
+        },
+    },
+
+    '& table_row':{
+      borderBottom:'1px solid Colors.black !important',
+    },
+    '& table tr td':{
+        backgroundColor:'#fff',
+        padding:'7px',
+        '& button.action':{
+            color: '#000',
+            border: 'none',
+            outline: 'none',
+            padding: '7px 15px',
+            borderRadius: '5px',
+            fontSize: '12px',
+            height: '30px',
+            '&.save':{
+                color:'#fff',
+                backgroundColor: '#009000',
+            },
+        },
+        '& a':{
+        fontSize:'12px',
+        color:'#007FFF',
+        },
+        '& input,& textarea, & select':{
+            fontSize:'12px',
+            width:'100%',
+            padding:'5px',
+            borderRadius:'5px',
+        },
+        '& .MuiStack-root':{
+            padding:'0',
+            '& .MuiFormControl-root':{
+                minWidth:'150px',
+                maxWidth:'150px',
+                margin:"auto",
+                border:'1px solid rgba(0, 0, 0, 0.23)',
+                borderRadius:'5px',
+                '& label':{
+                    fontSize:'11px',
+                    top:'-5px'
+                },
+                '& .MuiInputBase-input':{
+                    padding:'9px 14px',
+                    height:'auto',
+                },
+                '& .MuiOutlinedInput-notchedOutline':{
+                    display:'none',
+                }
+            }
+        }
+    },
+    '& table tr:last-of-type td':{
+        borderBottom:'none',
+    },
+    '& table tr td:first-of-type,& table tr th:first-of-type':{
+        borderLeft:'1px solid rgba(224, 224, 224, 1)',
+    },
+    '& table tr':{
+        '&:hover':{
+            '& td.Form_accepted,& td.Form_submitted':{
+                backgroundColor:Colors.formAcceptedBg,
+            },
+            '& td.Form_in-process,& td.Form_reconsideration':{
+                backgroundColor:Colors.formInprocessBg,
+            },
+            '& td.Form_pending':{
+                backgroundColor:Colors.formInprocessBg,
+            },
+        },
+        '& td':{
+            '&.Form_accepted,&.Form_submitted':{
+                color:Colors.formAccepted,},
+                '&.Form_in-process,&.Form_reconsideration':{
+                    color:Colors.formInprcess,},
+                    '&.Form_pending':{
+                        color:Colors.formPending,}
+        },
+    },
+
+}))
+
+export const SmartSearchContain = styled(Box)(()=>({
+    width:'200px',
+    position:'relative',
+    // marginLeft:'auto',
+    '& .MuiFormControl-root':{
+        margin:'0'
+    },
+    '& label':{
+        fontSize:'12px',
+    },
+    '& input':{
+        fontSize:'12px',
+        paddingRight:'25px',
+        backgroundColor:'#fff',
+        '&::placeholder':{
+            fontSize:'12px',
+        },
+    },
+    '& svg':{
+        position:'absolute',
+        right:'3px',
+        top:'7px',
+        color:Colors.light_gray,
+    },
+}))
+
+export const PaginationContain = styled(Box)(() => ({
+    '& .MuiTablePagination-select': {
+      zIndex: 5,
+    },
+    borderTop: '1px solid #ddd',  // Top border
+    // Add left and right borders to the PaginationContain
+    borderLeft: '1px solid #ddd',   // Left border
+    borderRight: '1px solid #ddd',  // Right border
+    padding: '0',                   // Remove extra padding if necessary
+  }));
+  
+
+export const PdfButton = styled(Button)(()=>({
+    backgroundColor:'transparent',
+    minWidth:'30px',
+    borderRadius:'5px',
+    color:Colors.pending,
+}))
+
+export const ContainerCustom = styled(Box)(()=>({
+    display:'flex',
+    justifyContent:'end',
+    alignItems:'center',
+    backgroundColor:'#f5f5f5',
+    marginBottom:'10px',
+    padding:' 0',
+    borderRadius:'5px',
+}))
+
+export const TableModal = styled(Box)(() => ({
+    maxWidth: '550px',
+    width: '100%',
+    maxHeight: '500px',
+    backgroundColor: Colors.white,
+    display: 'flex',
+    flexDirection: 'column',
+    '& .ModalHeader': {
+      backgroundColor: Colors.primary,
+      color: Colors.white,
+      fontSize: '14px',
+      position: 'relative',
+      padding: '15px',
+      '& .Title': {
+        paddingRight: '30px',
+      },
+      '& .CloseButton': {
+        position: 'absolute',
+        right: '5px',
+        top: '8px',
+        width:'30px',
+        height:'30px',
+        display:'flex',
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'transparent',
+        color:Colors.white,
+        '& svg': {
+          color: 'inherit',
+        },
+      },
+    },
+    '& .ModalBody': {
+      padding: '10px',
+      overflow: 'hidden', // Correct spelling
+      flex: '1 1 auto', // Ensures modal body stretches to fill available space
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height:'420px',
+      '& img': {
+        maxWidth: '530px', // Constrain the image width
+        width:'100%',
+        maxHeight: '400px', // Constrain the image height to the modal body
+        objectFit: 'contain', // Ensures the image fits inside the container
+      },
+    },
+  }));  
+
+
+
+import React, { useEffect, useState, useRef } from 'react';
+import { TableBody, TableCell, TableHead, TableRow, Table, TableContainer, TablePagination } from '@mui/material';
+import { CommanTableContain, PaginationContain } from "../../style/Admin/UsersStyles";
+
+const UserList = () => {
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(0); // Current page state
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Rows per page state
+  const [showPaginationBorder, setShowPaginationBorder] = useState(false); // State to control the pagination border
+  const tableContainerRef = useRef(null);
+
+  const staticHeaders = [
+    { id: "User ID", label: "User ID" },
+    { id: "Name", label: "Name" },
+    { id: "Phone", label: "Phone", mediaModal: true },
+    { id: "Email", label: "Email" },
+    { id: "Status", label: "Status" },
+  ];
+
+  // Sample users data
+ useEffect(() => {
+     fetch('http://localhost:8080/api/admin/fetch')
+       .then((response) => response.json())
+       .then((data) => {
+         if (data.success) {
+           setUsers(data.users);
+         }
+          
+       })
+       .catch((error) => {
+         console.error("Error fetching data: ", error);
+       });
+   }, []);
+
+  // Pagination functions
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Reset to the first page when rows per page changes
+  };
+
+  // Paginated data
+  const filteredData = users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  // Check if vertical scrollbar is visible and update pagination border visibility
+  useEffect(() => {
+    const tableContainer = tableContainerRef.current;
+    if (tableContainer) {
+      const isVerticalScrollVisible = tableContainer.scrollHeight > tableContainer.clientHeight;
+      setShowPaginationBorder(isVerticalScrollVisible);
+    }
+  }, [filteredData, rowsPerPage, page]);
+
+  return (
+    <CommanTableContain>
+      <TableContainer 
+        ref={tableContainerRef}
+        style={{ 
+          maxHeight: "400px", // Set the maximum height for vertical scroll
+          overflowY: "auto",  // Enable vertical scroll
+          overflowX: "auto",  // Enable horizontal scroll
+         // Add bottom border to container (optional)
+          position: 'relative',  // Ensure the position is relative to allow sticky headers
+        }}
+      >
+        <Table stickyHeader sx={{ borderCollapse: 'collapse', width: '100%' }}>
+          <TableHead>
+            <TableRow sx={{ borderBottom: '2px solid #ddd' }}>
+              {/* Sticky "ID" column header */}
+              <TableCell
+                sx={{
+                  position: "sticky",
+                  left: 0,  // Sticky on the left
+                  zIndex: 3,  // Ensure it stays above the rest of the content
+                   // White background for better visibility
+                  width: "100px", // Adjust column width
+                   // Add a shadow to make sure it is visually separated
+                }}
+              >
+                S. no.
+              </TableCell>
+              {/* Other table headers */}
+              {staticHeaders.map((header) => (
+                <TableCell
+                  key={header.id}
+                  sx={{
+                    position: "sticky",
+                    top: 0,  // Stick to the top of the table
+                    zIndex: 2,  // Less priority than the sticky "S. no." column
+                     
+                    // Add shadow to header for separation
+                  }}
+                >
+                  {header.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {filteredData.map((user, rowIndex) => (
+              <TableRow key={user.id}  className='table_row' sx={{ borderBottom: '1px solid #ddd' }}>
+                {/* Sticky "ID" column in body */}
+                <TableCell
+                  sx={{
+                    position: "sticky",
+                    left: 0,  // Keep it fixed on the left side
+                    zIndex: 0,  // Ensure the ID column stays above other rows
+                     
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                     
+                    
+                    outline: ' 1px solid #ddd', // Remove outline on focus 
+                    // Add shadow to the sticky column
+                  }}
+                >
+                 {user.id}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    position: "static",  // Non-sticky columns
+                     
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    
+                     // Add border to each column
+                  }}
+                >
+                 {user.user_id}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    position: "static",
+                    
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                     // Add border to each column
+                  }}
+                >
+                  {user.name}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    position: "static",
+                    
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                      // Add border to each column
+                  }}
+                >
+                  {user.phone_no}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    position: "static",
+                    
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                     // Add border to each column
+                  }}
+                >
+                  {user.email_id}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    position: "static",
+                     
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {user.email_id}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Pagination Component with conditional top border */}
+      <PaginationContain  >
+  <TablePagination
+    component="div"
+    count={users.length}
+    page={page}
+    onPageChange={handleChangePage}
+    rowsPerPage={rowsPerPage}
+    onRowsPerPageChange={handleChangeRowsPerPage}
+  />
+</PaginationContain>
+
+    </CommanTableContain>
+  );
+};
+
+export default UserList;
